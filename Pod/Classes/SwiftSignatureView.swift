@@ -215,8 +215,7 @@ open class SwiftSignatureView: UIView, ISignatureView {
 
 }
 
-// The following preview is the only iOS 17 requirement
-//
-//#Preview {
-//    SwiftSignatureView(frame: CGRect(x: 0, y: 0, width: 300, height: 200))
-//}
+@available(iOS 17.0, *)
+#Preview {
+    SwiftSignatureView(frame: CGRect(x: 0, y: 0, width: 300, height: 200))
+}
