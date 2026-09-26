@@ -91,6 +91,15 @@ open class PencilKitSignatureView: UIView, ISignatureView {
         return autoreleasepool {
             var image: UIImage?
             traitCollection.performAsCurrent {
+                // adjust scale to avoid max texture size
+                var scale = self.scale
+                let length = max(canvas.bounds.width, canvas.bounds.height)
+                let device = MTLCreateSystemDefaultDevice()!
+                let maxLength = device.supportsFamily(.apple1) || device.supportsFamily(.apple2) ?  8192.0 : 16384.0
+                if (scale * length) > maxLength {
+                    scale = floor(maxLength / length)
+                }
+
                 let fullRender = canvas.drawing.image(from: canvas.bounds, scale: scale)
                 let bounds = self.scale(
                     canvas.drawing.bounds.insetBy(dx: -maximumStrokeWidth/2, dy: -maximumStrokeWidth/2),
